@@ -26,7 +26,7 @@ steps:
     candidate: ${{Build}}
     tag: '${{CF_SHORT_REVISION}}'
     image_name: palson/http-server
-    registry: my-registry
+    registry: dockerhub
   Tests:
     title: Running tests
     # image: '${{MyAppDockerImage}}'
