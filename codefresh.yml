@@ -23,7 +23,7 @@ steps:
     type: push
     title: Push to Docker Hub
     description: Free text description
-    # candidate: palson/'${{CF_SHORT_REVISION}}'
+    candidate: palson/http-server:'${{CF_SHORT_REVISION}}'
     tag: '${{CF_SHORT_REVISION}}'
     image_name: palson/http-server
     registry: dockerhub
