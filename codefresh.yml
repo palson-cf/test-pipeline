@@ -11,15 +11,23 @@ steps:
     repo: '${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}'
     revision: '${{CF_REVISION}}'
     # stage: prepare
-  MyAppDockerImage:
+  Build:
     title: Building Docker Image
     type: build
     # stage: build
     image_name: simple-server
     working_directory: ./
-    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
+    tag: '${{CF_SHORT_REVISION}}'
     dockerfile: Dockerfile
-  MyUnitTests:
+  Push:
+    type: push
+    title: Push to Docker Hub
+    description: Free text description
+    candidate: ${{Build}}
+    tag: '${{CF_SHORT_REVISION}}'
+    image_name: palson/http-server
+    registry: my-registry
+  Tests:
     title: Running tests
     # image: '${{MyAppDockerImage}}'
     image: alpine
