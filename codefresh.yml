@@ -19,7 +19,7 @@ steps:
     working_directory: ./
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
     dockerfile: Dockerfile
-	Deploy:
+  Deploy:
     title: deploying to cluster
     type: deploy
     arguments:
