@@ -19,6 +19,12 @@ steps:
     working_directory: ./
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
     dockerfile: Dockerfile
+  MyUnitTests:
+    title: Running tests
+    image: '${{MyAppDockerImage}}'
+    # image: 'cf-registry.codefresh.svc:5000/my-app-image:master'
+    commands:
+      - curl localhost:8080
 #   Deploy:
     # title: deploying to cluster
     # type: deploy
