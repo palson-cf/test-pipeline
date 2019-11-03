@@ -19,11 +19,11 @@ steps:
     working_directory: ./
     tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
     dockerfile: Dockerfile
-  Deploy:
-    title: deploying to cluster
-    type: deploy
-    arguments:
-      kind: kubernetes
-      cluster: issue-66
-      namespace: testserver
-      service: simplego
+#   Deploy:
+    # title: deploying to cluster
+    # type: deploy
+    # arguments:
+      # kind: kubernetes
+      # cluster: issue-66
+      # namespace: testserver
+#       service: simplego
