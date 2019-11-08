@@ -14,11 +14,11 @@ steps:
     stage: prepare
   Build:
     type: parallel
+    stage: build
     steps:
       BuildAlpine:
         title: Building Alpine based Docker Image
         type: build
-        stage: build
         image_name: simple-server
         working_directory: ./
         tag: 'alpine-${{CF_SHORT_REVISION}}'
@@ -26,7 +26,6 @@ steps:
       BuildUbuntu:
         title: Building Ubuntu based Docker Image
         type: build
-        stage: build
         image_name: simple-server
         working_directory: ./
         tag: 'ubuntu-${{CF_SHORT_REVISION}}'
