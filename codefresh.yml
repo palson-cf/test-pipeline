@@ -1,33 +1,47 @@
 
 version: '1.0'
-# stages:
-  # - prepare
-  # - build
-#   - deploy
+stages:
+  - prepare
+  - build
+  - test
+  - deploy
 steps:
   main_clone:
     title: Cloning main repository...
     type: git-clone
     repo: '${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}'
     revision: '${{CF_REVISION}}'
-    # stage: prepare
+    stage: prepare
   Build:
-    title: Building Docker Image
-    type: build
-    # stage: build
-    image_name: simple-server
-    working_directory: ./
-    tag: '${{CF_SHORT_REVISION}}'
-    dockerfile: Dockerfile
+    type: parallel
+    steps:
+      BuildAlpine:
+        title: Building Alpine based Docker Image
+        type: build
+        stage: build
+        image_name: simple-server
+        working_directory: ./
+        tag: 'alpine-${{CF_SHORT_REVISION}}'
+        dockerfile: Dockerfile
+      BuildUbuntu:
+        title: Building Ubuntu based Docker Image
+        type: build
+        stage: build
+        image_name: simple-server
+        working_directory: ./
+        tag: 'ubuntu-${{CF_SHORT_REVISION}}'
+        dockerfile: Dockerfile.ubuntu
   Push:
     type: push
     title: Push to Docker Hub
     description: Free text description
-    candidate: ${{Build}}
+    candidate: ${{BuildAlpine}}
     tag: '${{CF_SHORT_REVISION}}'
     image_name: palson/http-server
     registry: dockerhub
+    stage: build
   Tests:
+    stage: test
     title: Running tests
     # image: '${{MyAppDockerImage}}'
     image: alpine
