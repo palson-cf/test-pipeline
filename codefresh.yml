@@ -21,21 +21,29 @@ steps:
         type: build
         image_name: simple-server
         working_directory: ./
-        tag: 'alpine-${{CF_SHORT_REVISION}}'
+        tag: "alpine-${{CF_SHORT_REVISION}}"
         dockerfile: Dockerfile
       BuildUbuntu:
         title: Building Ubuntu based Docker Image
         type: build
         image_name: simple-server
         working_directory: ./
-        tag: 'ubuntu-${{CF_SHORT_REVISION}}'
+        tag: "ubuntu-${{CF_SHORT_REVISION}}"
         dockerfile: Dockerfile.ubuntu
+  TestEnv:
+    stage: build
+    title: echo
+    # image: '${{MyAppDockerImage}}'
+    image: alpine
+    # image: 'cf-registry.codefresh.svc:5000/my-app-image:master'
+    commands:
+      - env
   Push:
     type: push
     title: Push to Docker Hub
     description: Free text description
     candidate: ${{BuildAlpine}}
-    tag: '${{CF_SHORT_REVISION}}'
+    tag: "${{CF_SHORT_REVISION}}"
     image_name: palson/http-server
     registry: dockerhub
     stage: build
