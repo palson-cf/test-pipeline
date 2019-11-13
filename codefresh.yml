@@ -65,7 +65,7 @@ steps:
     namespace: testserver
     file_path: ./deployment.yml
     candidate:
-    image: ${{BuildAlpine}}
-    registry: dockerhub
+      image: ${{BuildAlpine}}
+      registry: dockerhub
 
 
