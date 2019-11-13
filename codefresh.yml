@@ -60,12 +60,12 @@ steps:
     title: deploying to cluster
     stage: deploy
     type: deploy
-      kind: kubernetes
-      cluster: plcluster 
-      namespace: testserver
-      file_path: ./deployment.yml
-      candidate:
-      image: ${{BuildAlpine}}
-      registry: dockerhub
+    kind: kubernetes
+    cluster: plcluster 
+    namespace: testserver
+    file_path: ./deployment.yml
+    candidate:
+    image: ${{BuildAlpine}}
+    registry: dockerhub
 
 
