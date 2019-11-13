@@ -42,16 +42,22 @@ steps:
   Tests:
     stage: test
     title: Running tests
-    # image: '${{MyAppDockerImage}}'
-    image: alpine
+    image: '${{BuildAlpine}}'
+    # image: alpine
     # image: 'cf-registry.codefresh.svc:5000/my-app-image:master'
+    fail_fast: false
     commands:
       - env
-#   Deploy:
-    # title: deploying to cluster
-    # type: deploy
-    # arguments:
-      # kind: kubernetes
-      # cluster: issue-66
-      # namespace: testserver
-#       service: simplego
+  Deploy:
+    title: deploying to cluster
+    stage: deploy
+    type: deploy
+      kind: kubernetes
+      cluster: plcluster 
+      namespace: testserver
+      file_path: ./deployment.yml
+      candidate:
+      image: ${{BuildAlpine}}
+      registry: dockerhub
+
+
