@@ -61,6 +61,7 @@ steps:
     stage: deploy
     type: deploy
     kind: kubernetes
+    cluster: issue-66
     namespace: testserver
     file_path: ./deployment.yml
     candidate:
