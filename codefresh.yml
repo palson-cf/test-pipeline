@@ -5,6 +5,11 @@ stages:
   - build
   - test
   - deploy
+services:
+  mongo_test_service:
+    image: mongo:latest
+    ports:
+      - 27017 
 steps:
   main_clone:
     title: Cloning main repository...
@@ -16,56 +21,151 @@ steps:
     type: parallel
     stage: build
     steps:
-      BuildAlpine:
+      BuildLatestAlpine:
         title: Building Alpine based Docker Image
         type: build
-        image_name: simple-server
+        image_name: simple-alpine-server
         working_directory: ./
-        tag: "alpine-${{CF_SHORT_REVISION}}"
+        tag: "latest"
         dockerfile: Dockerfile
-      BuildUbuntu:
+        when:
+          branch:
+            only:
+              - master
+      BuildLatestUbuntu:
         title: Building Ubuntu based Docker Image
         type: build
-        image_name: simple-server
+        image_name: simple-ubuntu-server
         working_directory: ./
-        tag: "ubuntu-${{CF_SHORT_REVISION}}"
+        tag: "latest"
         dockerfile: Dockerfile.ubuntu
-  TestEnv:
-    stage: build
-    title: echo
-    # image: '${{MyAppDockerImage}}'
-    image: alpine
-    # image: 'cf-registry.codefresh.svc:5000/my-app-image:master'
-    commands:
-      - env
+        when:
+          branch:
+            only:
+              - master
+      BuildDevAlpine:
+        title: Building Alpine based Docker Image
+        type: build
+        image_name: simple-alpine-server
+        working_directory: ./
+        tag: "${{CF_BRANCH}}"
+        dockerfile: Dockerfile
+        when:
+          branch:
+            ignore:
+              - master
+      BuildDevUbuntu:
+        title: Building Ubuntu based Docker Image
+        type: build
+        image_name: simple-ubuntu-server
+        working_directory: ./
+        tag: "${{CF_BRANCH}}"
+        dockerfile: Dockerfile.ubuntu
+        when:
+          branch:
+            ignore:
+              - master
   Push:
-    type: push
-    title: Push to Docker Hub
-    description: Free text description
-    candidate: ${{BuildAlpine}}
-    tag: "${{CF_SHORT_REVISION}}"
-    image_name: palson/http-server
-    registry: dockerhub
+    type: parallel
     stage: build
+    steps:
+      PushLatestAlpine:
+        type: push
+        title: Push to Docker Hub
+        description: Free text description
+        candidate: ${{BuildLatestAlpine}}
+        tag: "${{CF_SHORT_REVISION}}"
+        image_name: palson/http-server
+        registry: dockerhub
+        stage: build
+        when:
+          branch:
+            only:
+              - master
+      PushLatestUbuntu:
+        type: push
+        title: Push to Docker Hub
+        description: Free text description
+        candidate: ${{BuildLatestAlpine}}
+        tag: "${{CF_SHORT_REVISION}}"
+        image_name: palson/http-server
+        registry: dockerhub
+        stage: build
+        when:
+          branch:
+            only:
+              - master
+      PushDevAlpine:
+        type: push
+        title: Push to Docker Hub
+        description: Free text description
+        candidate: ${{BuildDevAlpine}}
+        tag: "${{CF_SHORT_REVISION}}"
+        image_name: palson/http-server
+        registry: dockerhub
+        stage: build
+        when:
+          branch:
+            ignore:
+              - master
+      PushDevUbuntu:
+        type: push
+        title: Push to Docker Hub
+        description: Free text description
+        candidate: ${{BuildDevUbuntu}}
+        tag: "${{CF_SHORT_REVISION}}"
+        image_name: palson/http-server
+        registry: dockerhub
+        stage: build
+        when:
+          branch:
+            ignore:
+              - master
   Tests:
+    type: parallel
     stage: test
-    title: Running tests
-    image: '${{BuildAlpine}}'
-    # image: alpine
-    # image: 'cf-registry.codefresh.svc:5000/my-app-image:master'
-    fail_fast: false
-    commands:
-      - env
-  Deploy:
-    title: deploying to cluster
-    stage: deploy
-    type: deploy
-    kind: kubernetes
-    cluster: issue-66
-    namespace: testserver
-    file_path: ./deployment.yml
-    candidate:
-      image: ${{BuildAlpine}}
-      registry: dockerhub
+    steps:
+      Successful:      
+        title: Running tests
+        image: '${{BuildAlpine}}'
+        commands:
+          - env
+      FailedTests:
+        title: Running tests
+        image: '${{BuildAlpine}}'
+        commands:
+          - exit 1e
+        fail_fast: false
+    on_success:
+      metadata:
+        set:
+          - ${{BuildAlpine}}:
+            - tests: passed
 
+  StoreChart:
+    title: Storing Helm chart
+    stage: deploy
+    image: 'codefresh/cfstep-helm:2.12.3'
+    environment:
+      - ACTION=push
+      - CHART_REF=charts/simple-server
+#   Deploy:
+    # title: deploying to cluster
+    # stage: deploy
+    # type: deploy
+    # kind: kubernetes
+    # cluster: issue-66
+    # namespace: testserver
+    # file_path: ./deployment.yml
+    # candidate:
+      # image: ${{BuildAlpine}}
+      # registry: dockerhub
+    # on_success:
+      # annotations:
+        # set:
+          # - entity_id: default/test-pipeline
+            # entity_type: pipeline
+            # annotations:
+            # - annotation_example: 0.0.8
+            # - string_annotation: Test_String
 
