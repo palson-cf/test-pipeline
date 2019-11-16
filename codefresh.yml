@@ -122,7 +122,7 @@ steps:
             ignore:
               - master
   Tests:
-    type: parajllel
+    type: parallel
     stage: tes
     steps:
       Successful:      
