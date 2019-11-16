@@ -124,6 +124,7 @@ steps:
   Tests:
     type: parallel
     stage: test
+    fail_fast: false
     steps:
       Successful:      
         title: Running tests
@@ -135,7 +136,6 @@ steps:
         image: '${{BuildLatestAlpine}}'
         commands:
           - exit 1e
-        fail_fast: false
     when:
       branch:
         only:
