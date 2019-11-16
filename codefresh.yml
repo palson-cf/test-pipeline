@@ -122,20 +122,24 @@ steps:
             ignore:
               - master
   Tests:
-    type: parallel
-    stage: test
+    type: parajllel
+    stage: tes
     steps:
       Successful:      
         title: Running tests
-        image: '${{BuildAlpine}}'
+        image: '${{BuildLatestAlpine}}'
         commands:
-          - env
+          - en
       FailedTests:
         title: Running tests
-        image: '${{BuildAlpine}}'
+        image: '${{BuildLatestAlpine}}'
         commands:
           - exit 1e
         fail_fast: false
+    when:
+      branch:
+        only:
+          - master
     on_success:
       metadata:
         set:
