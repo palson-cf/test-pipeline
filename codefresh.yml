@@ -22,7 +22,7 @@ steps:
     stage: build
     steps:
       BuildLatestAlpine:
-        title: Building Alpine based Docker Image
+        title: Building latest Alpine based Docker Image
         type: build
         image_name: simple-alpine-server
         working_directory: ./
@@ -33,7 +33,7 @@ steps:
             only:
               - master
       BuildLatestUbuntu:
-        title: Building Ubuntu based Docker Image
+        title: Building latest Ubuntu based Docker Image
         type: build
         image_name: simple-ubuntu-server
         working_directory: ./
@@ -44,7 +44,7 @@ steps:
             only:
               - master
       BuildDevAlpine:
-        title: Building Alpine based Docker Image
+        title: Building dev Alpine based Docker Image
         type: build
         image_name: simple-alpine-server
         working_directory: ./
@@ -55,7 +55,7 @@ steps:
             ignore:
               - master
       BuildDevUbuntu:
-        title: Building Ubuntu based Docker Image
+        title: Building dev Ubuntu based Docker Image
         type: build
         image_name: simple-ubuntu-server
         working_directory: ./
@@ -71,7 +71,7 @@ steps:
     steps:
       PushLatestAlpine:
         type: push
-        title: Push to Docker Hub
+        title: Push latest Alpine to Docker Hub
         description: Free text description
         candidate: ${{BuildLatestAlpine}}
         tag: "${{CF_SHORT_REVISION}}"
@@ -84,9 +84,9 @@ steps:
               - master
       PushLatestUbuntu:
         type: push
-        title: Push to Docker Hub
+        title: Push latest Ubuntu to Docker Hub
         description: Free text description
-        candidate: ${{BuildLatestAlpine}}
+        candidate: ${{BuildLatestUbuntu}}
         tag: "${{CF_SHORT_REVISION}}"
         image_name: palson/http-server
         registry: dockerhub
@@ -97,7 +97,7 @@ steps:
               - master
       PushDevAlpine:
         type: push
-        title: Push to Docker Hub
+        title: Push dev Alpine to Docker Hub
         description: Free text description
         candidate: ${{BuildDevAlpine}}
         tag: "${{CF_SHORT_REVISION}}"
@@ -110,7 +110,7 @@ steps:
               - master
       PushDevUbuntu:
         type: push
-        title: Push to Docker Hub
+        title: Push dev Ubuntu to Docker Hub
         description: Free text description
         candidate: ${{BuildDevUbuntu}}
         tag: "${{CF_SHORT_REVISION}}"
@@ -127,15 +127,15 @@ steps:
     fail_fast: false
     steps:
       Successful:      
-        title: Running tests
+        title: Running successful tests
         image: '${{BuildLatestAlpine}}'
         commands:
-          - en
+          - env
       FailedTests:
-        title: Running tests
+        title: Running failed tests
         image: '${{BuildLatestAlpine}}'
         commands:
-          - exit 1e
+          - exit 1
     when:
       branch:
         only:
@@ -150,9 +150,23 @@ steps:
     title: Storing Helm chart
     stage: deploy
     image: 'codefresh/cfstep-helm:2.12.3'
+    fail_fast: false
     environment:
       - ACTION=push
       - CHART_REF=charts/simple-server
+
+  DeployChart:
+    image: 'codefresh/cfstep-helm:2.12.3'
+    title: Deploying Helm chart
+    stage: deploy
+    environment:
+      - CHART_REF=charts/simple-server
+      - RELEASE_NAME=my-geo-chart-prod
+      - KUBE_CONTEXT=issue-66
+      - VALUE_image_pullPolicy=Always
+      - VALUE_image_tag='multi-stage'
+      - VALUE_replicaCount=3
+
 #   Deploy:
     # title: deploying to cluster
     # stage: deploy
