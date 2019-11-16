@@ -123,7 +123,7 @@ steps:
               - master
   Tests:
     type: parallel
-    stage: tes
+    stage: test
     steps:
       Successful:      
         title: Running tests
