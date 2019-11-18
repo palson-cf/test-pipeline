@@ -156,16 +156,24 @@ steps:
       - CHART_REF=charts/simple-server
 
   DeployChart:
-    image: 'codefresh/cfstep-helm:2.12.3'
     title: Deploying Helm chart
+    type: helm
     stage: deploy
-    environment:
-      - CHART_REF=charts/simple-server
-      - RELEASE_NAME=my-geo-chart-prod
-      - KUBE_CONTEXT=issue-66
-      - VALUE_image_pullPolicy=Always
-      - VALUE_image_tag='multi-stage'
-      - VALUE_replicaCount=3
+    arguments:
+      CHART_NAME: '${{CHART_REF}}'
+      RELEASE_NAME: '${{RELEASE_NAME}}'
+      KUBE_CONTEXT: '${{KUBE_CONTEXT}}'
+
+#     image: 'codefresh/cfstep-helm:2.12.3'
+    # title: Deploying Helm chart
+    # stage: deploy
+    # environment:
+      # - CHART_REF=charts/simple-server
+      # - RELEASE_NAME=my-geo-chart-prod
+      # - KUBE_CONTEXT=issue-66
+      # - VALUE_image_pullPolicy=Always
+      # - VALUE_image_tag='multi-stage'
+#       - VALUE_replicaCount=3
 
 #   Deploy:
     # title: deploying to cluster

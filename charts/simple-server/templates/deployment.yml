@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Values.namespace.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.namespace.name }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.namespace.name }}
+    spec:
+      containers:
+      - name: {{ .Values.namespace.name }}
+        image: palson/simple-go:master
+        ports:
+        - containerPort: 8080
+
+
+
