@@ -76,7 +76,7 @@ steps:
         candidate: ${{BuildLatestAlpine}}
         tag: "${{CF_SHORT_REVISION}}"
         image_name: palson/http-server
-        registry: dockerhub
+        registry: dockerhubtest2
         stage: build
         when:
           branch:
@@ -89,7 +89,7 @@ steps:
         candidate: ${{BuildLatestUbuntu}}
         tag: "${{CF_SHORT_REVISION}}"
         image_name: palson/http-server
-        registry: dockerhub
+        registry: dockerhubtest2
         stage: build
         when:
           branch:
@@ -102,7 +102,7 @@ steps:
         candidate: ${{BuildDevAlpine}}
         tag: "${{CF_SHORT_REVISION}}"
         image_name: palson/http-server
-        registry: dockerhub
+        registry: dockerhubtest2
         stage: build
         when:
           branch:
@@ -115,7 +115,7 @@ steps:
         candidate: ${{BuildDevUbuntu}}
         tag: "${{CF_SHORT_REVISION}}"
         image_name: palson/http-server
-        registry: dockerhub
+        registry: dockerhubtest2
         stage: build
         when:
           branch:
