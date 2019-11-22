@@ -146,14 +146,7 @@ steps:
           - ${{BuildAlpine}}:
             - tests: passed
 
-  StoreChart:
-    title: Storing Helm chart
-    stage: deploy
-    image: 'codefresh/cfstep-helm:2.12.3'
-    fail_fast: false
-    environment:
-      - ACTION=push
-      - CHART_REF=charts/simple-server
+
 
   DeployChart:
     title: Deploying Helm chart
