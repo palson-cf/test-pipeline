@@ -36,7 +36,7 @@ steps:
       GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: '${{GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY}}'
       UPLOAD_FILE_1:
         - ./Dockerfile
-  palsoncf/google-drive-upload:
+  google-drive-upload:
     type: palsoncf/google-drive-upload
     title: testupload
     fail_fast: true
