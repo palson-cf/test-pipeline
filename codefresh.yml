@@ -21,6 +21,9 @@ steps:
     title: Upload to Google Drive
     type: palsoncf/google-drive-upload
     stage: prepare
+    environment:
+      - >-
+        GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY='${{GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY}}'
     arguments:
       USER_EMAIL: pavel.nosovet@codefresh.io
       SERVICE_ACCOUNT_EMAIL: googledriveuploader@cf-test-260813.iam.gserviceaccount.com
