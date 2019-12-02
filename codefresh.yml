@@ -24,7 +24,7 @@ steps:
       - env
   upload:
     title: Upload to Google Drive
-    type: palsoncf/google-drive-upload
+    type: palsoncf/google-drive-upload-custom
     stage: prepare
     fail_fast: false
     arguments:
@@ -33,7 +33,8 @@ steps:
       UPLOAD_FILE_1:
         - ./Dockerfile
   GoogleDriveUpload:
-    type: palsoncf/google-drive-upload
+    type: palsoncf/google-drive-upload-custom
+    # type: palsoncf/google-drive-upload
     title: testupload
     fail_fast: true
     stage: prepare
