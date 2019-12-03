@@ -20,6 +20,7 @@ steps:
   printenv:      
     title: Print env variables
     image: alpine
+    stage: prepare
     commands:
       - env
   upload:
@@ -31,7 +32,8 @@ steps:
       SERVICE_ACCOUNT_EMAIL: googledriveuploader@cf-test-260813.iam.gserviceaccount.com
       UPLOAD_FILE_1:
         - '${{CF_VOLUME_PATH}}/${{CF_REPO_NAME}}/Dockerfile'
-        - '${{CF_VOLUME_PATH}}/${{CF_REPO_NAME}}/Makefile'
+        - Dockerfile
+        - text/plain
   Build:
     type: parallel
     stage: build
