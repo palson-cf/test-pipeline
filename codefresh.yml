@@ -24,7 +24,7 @@ steps:
       - env
   upload:
     title: Upload to Google Drive
-    type: palsoncf/google-drive-upload-custom
+    type: palsoncf/google-drive-upload-fix
     stage: prepare
     fail_fast: false
     arguments:
@@ -33,7 +33,7 @@ steps:
       UPLOAD_FILE_1:
         - ./Dockerfile
   GoogleDriveUpload:
-    type: palsoncf/google-drive-upload-custom
+    type: palsoncf/google-drive-upload-fix
     # type: palsoncf/google-drive-upload
     title: testupload
     fail_fast: true
@@ -43,6 +43,8 @@ steps:
     arguments:
       USER_EMAIL: pavel.nosovets@codefresh.io
       SERVICE_ACCOUNT_EMAIL: googledriveuploader@cf-test-260813.iam.gserviceaccount.com
+      UPLOAD_FILE_1:
+        - ./Makefile
   Build:
     type: parallel
     stage: build
