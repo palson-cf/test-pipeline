@@ -24,7 +24,7 @@ steps:
       - env
   upload:
     title: Upload to Google Drive
-    type: palsoncf/google-drive-upload-fix
+    type: palsoncf/google-drive-upload
     stage: prepare
     arguments:
       USER_EMAIL: pavel.nosovet@codefresh.io
