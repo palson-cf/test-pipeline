@@ -26,7 +26,6 @@ steps:
     title: Upload to Google Drive
     type: palsoncf/google-drive-upload-fix
     stage: prepare
-    fail_fast: false
     arguments:
       USER_EMAIL: pavel.nosovet@codefresh.io
       SERVICE_ACCOUNT_EMAIL: googledriveuploader@cf-test-260813.iam.gserviceaccount.com
