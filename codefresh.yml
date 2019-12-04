@@ -34,6 +34,11 @@ steps:
         - '${{CF_VOLUME_PATH}}/${{CF_REPO_NAME}}/Dockerfile'
         - Dockerfile
         - text/plain
+      UPLOAD_FILE_2:
+        - '${{CF_VOLUME_PATH}}/${{CF_REPO_NAME}}/Makefile'
+        - Makefile
+        - text/plain
+
   Build:
     type: parallel
     stage: build
