@@ -92,7 +92,7 @@ steps:
               - master
   ScanAlpineImage:
     title: Scanning Docker Image
-    type: anchore
+    type: palsoncf/anchore-plugin
     stage: build
     arguments:
       ANCHORE_CLI_URL: http://anchore-engine::8228/v1
