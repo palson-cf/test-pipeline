@@ -96,8 +96,8 @@ steps:
     stage: build
     arguments:
       ANCHORE_CLI_URL: http://anchore-engine::8228/v1
-      ANCHORE_CLI_IMAGE: '$${{BuildLatestAlpine}}'
-      ANCHORE_CLI_FAIL_ON_POLICY: "true"
+      ANCHORE_CLI_IMAGE: '${{BuildLatestAlpine}}'
+      ANCHORE_FAIL_ON_POLICY: "true"
     services:
       - anchore-engine
   Push:
