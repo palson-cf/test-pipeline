@@ -41,6 +41,16 @@ steps:
         - '${{CF_VOLUME_PATH}}/${{CF_REPO_NAME}}/Makefile'
         - Makefile
         - text/plain
+  precheck:
+    title: List ports
+    image: codefresh/cli
+    stage: prepare
+    commands:
+      - env
+      - curl localhost:8228 || true
+      - curl http://anchore-engine:8228/v1 || true
+      - nmap -Pn localhost
+ 
 
   Build:
     type: parallel
