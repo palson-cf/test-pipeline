@@ -41,18 +41,18 @@ steps:
         # - '${{CF_VOLUME_PATH}}/${{CF_REPO_NAME}}/Makefile'
         # - Makefile
 #         - text/plain
-  precheck:
-    title: List ports
-    image: codefresh/cli
-    stage: prepare
-#     services:
-#       - anchore-engine
-    commands:
-      - env
-      - curl localhost:8228 || true
-      - curl http://anchore-engine:8228/v1 || true
-      - apt update && apt install -y nmap
-      - nmap -Pn localhost
+#   precheck:
+    # title: List ports
+    # image: codefresh/cli
+    # stage: prepare
+# #     services:
+# #       - anchore-engine
+    # commands:
+      # - env
+      # - curl localhost:8228 || true
+      # - curl http://anchore-engine:8228/v1 || true
+      # - apt update && apt install -y nmap
+      # - nmap -Pn localhost
  
 
   Build:
