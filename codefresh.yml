@@ -27,7 +27,7 @@ steps:
       - env
   upload:
     title: Upload to Google Drive
-    type: palsoncf/google-drive-upload
+    type: google-drive-upload
     stage: prepare
     fail_fast: false
     arguments:
