@@ -5,13 +5,13 @@ stages:
   - build
   - test
   - deploy
-services:
+# services:
   # mongo_test_service:
     # image: mongo:latest
     # ports:
       # - 27017 
-  name: anchore-engine
-  composition: anchore
+  # name: anchore-engine
+  # composition: anchore
 steps:
   main_clone:
     title: Cloning main repository...
