@@ -6,6 +6,7 @@ RUN apk update && \
 RUN make build
 
 RUN cp ./tmp/http-server /tmp/
+RUN apk add bash
 
 FROM ubuntu:18.04
 WORKDIR /usr/local/bin
