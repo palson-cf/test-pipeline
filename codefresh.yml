@@ -103,16 +103,16 @@ steps:
           branch:
             ignore:
               - master
-  ScanAlpineImage:
-    title: Scanning Docker Image
-    type: palsoncf/anchore-plugin
-    stage: build
-    arguments:
-      ANCHORE_CLI_URL: http://anchore-engine:8228/v1
-      ANCHORE_CLI_IMAGE: '${{BuildLatestAlpine}}'
-      ANCHORE_FAIL_ON_POLICY: "true"
-    services:
-      - anchore-engine
+#   ScanAlpineImage:
+    # title: Scanning Docker Image
+    # type: palsoncf/anchore-plugin
+    # stage: build
+    # arguments:
+      # ANCHORE_CLI_URL: http://anchore-engine:8228/v1
+      # ANCHORE_CLI_IMAGE: '${{BuildLatestAlpine}}'
+      # ANCHORE_FAIL_ON_POLICY: "true"
+    # services:
+#       - anchore-engine
   Push:
     type: parallel
     stage: build
