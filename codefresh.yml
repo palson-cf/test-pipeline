@@ -203,14 +203,14 @@ steps:
       - ACTION=push
       - CHART_REF=charts/simple-server
 
-  DeployChart:
-    title: Deploying Helm chart
-    type: helm
-    stage: deploy
-    arguments:
-      CHART_NAME: '${{CHART_REF}}'
-      RELEASE_NAME: '${{RELEASE_NAME}}'
-      KUBE_CONTEXT: '${{KUBE_CONTEXT}}'
+#   DeployChart:
+    # title: Deploying Helm chart
+    # type: helm
+    # stage: deploy
+    # arguments:
+      # CHART_NAME: '${{CHART_REF}}'
+      # RELEASE_NAME: '${{RELEASE_NAME}}'
+#       KUBE_CONTEXT: '${{KUBE_CONTEXT}}'
 
 #     image: 'codefresh/cfstep-helm:2.12.3'
     # title: Deploying Helm chart
