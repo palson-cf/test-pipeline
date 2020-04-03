@@ -1,7 +1,7 @@
 FROM  golang:1.13.1-alpine3.10 as build
 COPY . ./
 RUN apk update && \
-  apk add make vim
+  apk add make vim bash
 
 RUN make build
 
